@@ -29,7 +29,11 @@ This was done using Python (discord.py) and then hosted using [uptimerobot.com](
 * Replace a preexisting emote from the database with a different picture (e.g. holiday themed emotes)
 
 ## Example Use:
+### Adding an emote:
 ![Example of adding an emote](https://github.com/hanikanaan/EmoteBot/blob/main/images/Example%20adding%20emote.png)
+### Removing an emote:
 ![Example of removing an emote](https://github.com/hanikanaan/EmoteBot/blob/main/images/Example%20removing%20emote.png)
+### Replacing an emote:
 ![Example of replacing an emote](https://github.com/hanikanaan/EmoteBot/blob/main/images/Example%20replacement.png)
+### Typical bot reply to emote mention
 ![Example of bot response](https://github.com/hanikanaan/EmoteBot/blob/main/images/Example%20using%20emote.png)
