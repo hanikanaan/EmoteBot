@@ -34,25 +34,14 @@ async def on_message(msg):
           await msg.channel.send('No new status update.')
       else:
         await msg.channel.send('Invalid response status, please enter "true" or "false".')
+    return
 
   if db['responding'] == 'true':
-    curr_msg = msg.content
-    curr_msg.replace('+', '', 1)
-    curr_msg = curr_msg.split(' ')
-    for a in curr_msg:
-      if a.lower() == 'surely':
-        await msg.channel.send(db['Clueless'])
-        return
-      elif a in db.keys() and a != 'responding':
-        await msg.channel.send(db[a])
-        return
-
     if msg.content.startswith('+'):
       curr = msg.content.replace('+', '', 1)
       curr = curr.split(' ')
       if curr[0] in db.keys():
-        await msg.channel.send('This emote is already available in the database')
-        return
+        await msg.channel.send('This emote is already available in the database, if you would like to update it please use the $replace command.')
       else:
         try:
           link_check = curr[1][0:4]
@@ -67,7 +56,7 @@ async def on_message(msg):
             pass
         except ValueError:
           await msg.channel.send('Invalid link')
-        return
+      return
         
     if msg.content.startswith('!list'):
       for a in db.keys():
@@ -75,6 +64,32 @@ async def on_message(msg):
           await msg.channel.send(f'{a} emote: {db[a]}')
         else:
           pass
+      return
+    
+    if msg.content.startswith('$replace'):
+      curr = msg.content.split(' ')
+      if len(curr) == 3:
+        if curr[1] in db.keys():
+          link_check = curr[2][0:4]
+          if link_check == 'http':
+            db[curr[1]] = curr[2] + '.gif'
+            await msg.channel.send(f'Replaced emote {curr[1]} in database')
+            await msg.channel.send(db[curr[1]])
+          else:
+            await msg.channel.send('Invalid image link provided.')
+        else:
+          await msg.channel.send('Emote does not exist in the database, please use +*EmoteName* *EmotePictureLink*.')
+      else:
+        await msg.channel.send('Missing required argument for database entry. Please make sure to provide both an emote name and the link to the image you would like to use for it.')
+      return
+    
+    curr_msg = msg.content.split(' ')
+    for a in curr_msg:
+      if a.lower() == 'surely':
+        await msg.channel.send(db['Clueless'])
+      elif a in db.keys() and a != 'responding':
+        await msg.channel.send(db[a])
+      return
 
     if msg.content.startswith('-'):
       curr = msg.content.replace('-', '', 1)
@@ -82,12 +97,14 @@ async def on_message(msg):
       if curr[0] in db.keys():
         del db[curr[0]]
         await msg.channel.send(f'Removed emote from database: {curr[0]} :wave:')
+      return
   
-  if msg.content.startswith('!help EmoteBot'):
+  if msg.content.startswith('!help'):
     await msg.channel.send('Welcome to EmoteBot! This bot will read your messages and see if there is an emote reference in it, and if there is it will send the corresponding emote as per the database.')
-    await msg.channel.send('To add a new emote, write "+*EmoteName* *EmotePictureLink*". Note that if the emote is a gif emote you will have to add the .gif extension to the end.')
+    await msg.channel.send('To add a new emote, write "+*EmoteName* *EmotePictureLink*".')
+    await msg.channel.send('To replace a preexisting emote, write "$replace *EmoteName* *EmotePictureLink*".')
     await msg.channel.send('To see the list of preexisting emotes, type !list.')
-    await msg.channel.send('To turn off the bot, type "$responding false", and to turn it back on type "$responding true."')
+    return
 
 keep_alive()
 client.run(os.getenv("TOKEN"))
