@@ -18,7 +18,7 @@ async def on_message(msg):
   if str(msg.guild.id) in db.keys():
     pass
   else:
-    db[str(msg.guild.id)] = 'true'
+    db[str(msg.guild.id)] = True
   
   if msg.content.startswith('$responding'):
     curr = msg.content.split(' ')
@@ -28,10 +28,10 @@ async def on_message(msg):
       status = curr[1].lower()
       if status == 'true' or status == 'false':
         if status == 'false' and status != db[str(msg.guild.id)]:
-          db[str(msg.guild.id)] = 'false'
+          db[str(msg.guild.id)] = False
           await msg.channel.send(f'Changed status to {db[str(msg.guild.id)]}.')
         elif status == 'true' and status != db[str(msg.guild.id)]:
-          db[str(msg.guild.id)] = 'true'
+          db[str(msg.guild.id)] = True
           await msg.channel.send(f'Changed status to {db[str(msg.guild.id)]}.')
         else:
           await msg.channel.send('No new status update.')
@@ -39,7 +39,7 @@ async def on_message(msg):
         await msg.channel.send('Invalid response status, please enter "true" or "false".')
     return
 
-  if db[str(msg.guild.id)] == 'true':
+  if db[str(msg.guild.id)]:
     if msg.content.startswith('+'):
       curr = msg.content.replace('+', '', 1)
       curr = curr.split(' ')
@@ -106,11 +106,11 @@ async def on_message(msg):
       return
 
   if msg.content.startswith('!help'):
-    # await msg.channel.send('h')
     await msg.channel.send('Welcome to EmoteBot! This bot will read your messages and see if there is an emote reference in it, and if there is it will send the corresponding emote as per the database.')
     await msg.channel.send('To add a new emote, write "+*EmoteName* *EmotePictureLink*".')
     await msg.channel.send('To replace a preexisting emote, write "$replace *EmoteName* *EmotePictureLink*".')
     await msg.channel.send('To see the list of preexisting emotes, type !list.')
+    await msg.channel.send('To turn off the bot for this server, write "$responding false", and to turn it back on write "$responding true". If you are unsure of current bot status, type "$responding".')
   return
 
 
