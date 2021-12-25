@@ -46,8 +46,8 @@ async def on_message(msg) -> None:
 
     if db[str(msg.guild.id)]["status"]:
         if len(db[str(msg.guild.id)].keys()) <= 200:
-            if msg.content.startswith('+local'):
-                curr = msg.content.replace('+local', '', 1)
+            if msg.content.startswith('$add'):
+                curr = msg.content.replace('$add', '', 1)
                 curr = curr.split(' ')
                 if curr[0] in db.keys():
                     await msg.channel.send(
@@ -70,7 +70,7 @@ async def on_message(msg) -> None:
             '"-*EmoteName*" command, or to change a preexisting emote use the "$replace *EmoteName* *EmotePictureLink*" '
             'command.')
 
-        if msg.content.startswith('!list all'):
+        if msg.content.startswith('$list all'):
             await msg.channel.send('**Local emotes:**')
             for a in db[str(msg.guild.id)].keys():
                 if a != "status":
@@ -83,21 +83,22 @@ async def on_message(msg) -> None:
                     await msg.channel.send(f'{a} emote: {db[a]}')
             return
 
-        if msg.content.startswith('!list local'):
+        if msg.content.startswith('$list local'):
             for a in db[str(msg.guild.id)].keys():
                 if a != "status":
                     await msg.channel.send(f'{a} emote: {db[str(msg.guild.id)][a]}')
                 else:
                     pass
         
-        if msg.content.startswith('!list global'):
+        if msg.content.startswith('$list global'):
             for a in db.keys():
                 if not a.isnumeric():
                     await msg.channel.send(f'{a} emote: {db[a]}')
 
-        if msg.content.startswith('$replace'):
-            curr = msg.content.split(' ')
-            if len(curr) == 3:
+        if msg.content.startswith('$update'):
+            curr = msg.content.replace('$update', '', 1)
+            curr = curr.split(' ')
+            if len(curr) == 2:
                 if curr[1] in db.keys():
                     try:
                         validate(curr[2])
@@ -117,7 +118,7 @@ async def on_message(msg) -> None:
                     'Missing required argument(s) for database entry. Please make sure to provide both an emote name and the link to the image you would like to use for it.')
             return
 
-        if msg.content.startswith('-local'):
+        if msg.content.startswith('$remove'):
             curr = msg.content.replace('-', '', 1)
             curr = curr.split(' ')
             if curr[0] in db[str(msg.guild.id)].keys():
@@ -204,8 +205,8 @@ async def on_message(msg) -> None:
         await msg.channel.send('Welcome to EmoteBot! This bot will read your messages and see if there is an emote '
                                'reference in it, and if there is it will send the corresponding emote as per the '
                                'database.\nTo add a new emote, write "+*EmoteName* *EmotePictureLink*".\n'
-                               'To replace a preexisting emote, write "$replace *EmoteName* *EmotePictureLink*".\n'
-                               'To see the list of preexisting emotes, type !list.\n'
+                               'To replace a preexisting emote, write "$update *EmoteName* *EmotePictureLink*".\n'
+                               'To see the list of preexisting emotes, type $list.\n'
                                'To turn off the bot for this server, write "$responding false", and to turn it back '
                                'on write ''"$responding true". If you are unsure of current bot status, type '
                                '"$responding".')
