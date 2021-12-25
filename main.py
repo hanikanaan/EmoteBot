@@ -119,7 +119,7 @@ async def on_message(msg) -> None:
             return
 
         if msg.content.startswith('$remove'):
-            curr = msg.content.replace('-', '', 1)
+            curr = msg.content.replace('$remove', '', 1)
             curr = curr.split(' ')
             if curr[0] in db[str(msg.guild.id)].keys():
                 del db[msg.guild.id][curr[0]]
@@ -184,7 +184,7 @@ async def on_message(msg) -> None:
                     await msg.channel.send('Link not provided, no addition made.')
                     return
             else:
-                await msg.channel.send('This emote is not in the global database. If the emote is in ')
+                await msg.channel.send('This emote is not in the global database. If the emote is in your local database then use $update to replace it.')
                 return
         curr_msg = msg.content
         curr_msg = curr_msg.split(' ')
@@ -201,20 +201,21 @@ async def on_message(msg) -> None:
     else:
         await msg.channel.send('EmoteBot is currently disabled. Use comand "$responding true" to reactivate.')
 
+    if msg.content.startswith('$num'):
+        await msg.channel.send(db[str(msg.guild.id)][a])
+
     if msg.content.startswith('!help'):
         await msg.channel.send('Welcome to EmoteBot! This bot will read your messages and see if there is an emote '
                                'reference in it, and if there is it will send the corresponding emote as per the '
-                               'database.\nTo add a new emote, write "+*EmoteName* *EmotePictureLink*".\n'
+                               'database.\nTo add a new emote, write "$add *EmoteName* *EmotePictureLink*".\n'
                                'To replace a preexisting emote, write "$update *EmoteName* *EmotePictureLink*".\n'
-                               'To see the list of preexisting emotes, type $list.\n'
+                               'To see the list of preexisting emotes, type $list all to list all the emotes, $list global to list global emotes only, and $list local'
+                               ' to list local emotes only.\n'
                                'To turn off the bot for this server, write "$responding false", and to turn it back '
-                               'on write ''"$responding true". If you are unsure of current bot status, type '
+                               'on, write ''"$responding true". If you are unsure of current bot status, type '
                                '"$responding".')
         return
 
-    if msg.content.startswith('listglobalkeys'):
-        for a in db.keys():
-            await msg.channel.send(a)
 
 def server_init(serverid: str) -> None:
     db[serverid] = {
