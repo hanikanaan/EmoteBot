@@ -202,18 +202,18 @@ async def on_message(msg) -> None:
         await msg.channel.send('EmoteBot is currently disabled. Use comand "$responding true" to reactivate.')
 
     if msg.content.startswith('$num'):
-        await msg.channel.send(db[str(msg.guild.id)][a])
+        await msg.channel.send(f'{len(db[str(msg.guild.id)].keys())} local emotes in use. {200 - len(db[str(msg.guild.id)].keys())} slots still available.')
 
     if msg.content.startswith('!help'):
-        await msg.channel.send('Welcome to EmoteBot! This bot will read your messages and see if there is an emote '
+        await msg.channel.send('**Welcome to EmoteBot! This bot will read your messages and see if there is an emote '
                                'reference in it, and if there is it will send the corresponding emote as per the '
-                               'database.\nTo add a new emote, write "$add *EmoteName* *EmotePictureLink*".\n'
-                               'To replace a preexisting emote, write "$update *EmoteName* *EmotePictureLink*".\n'
-                               'To see the list of preexisting emotes, type $list all to list all the emotes, $list global to list global emotes only, and $list local'
-                               ' to list local emotes only.\n'
-                               'To turn off the bot for this server, write "$responding false", and to turn it back '
+                               'database**.\n     -> To add a new emote, write "$add *EmoteName* *EmotePictureLink*".\n     '
+                               '-> To replace a preexisting emote, write "$update *EmoteName* *EmotePictureLink*".\n     '
+                               '-> To see the list of preexisting emotes, type $list all to list all the emotes, $list global to list global emotes only, and $list local'
+                               ' to list local emotes only.\n     '
+                               '-> To turn off the bot for this server, write "$responding false", and to turn it back '
                                'on, write ''"$responding true". If you are unsure of current bot status, type '
-                               '"$responding".\nTo see the total number of server emotes the current server has, use the command "$num".')
+                               '"$responding".\n     -> To see the total number of server emotes the current server has, use the command "$num".')
         return
 
 
