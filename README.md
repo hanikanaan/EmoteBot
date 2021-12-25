@@ -49,6 +49,9 @@ This was done using Python (discord.py) and then hosted using [uptimerobot.com](
 ### $replace global:
 * Replace a preexisting global emote from the database with a different picture
 
+### $num:
+* Shows the number of local server emotes and how many are still available.
+
 ## Example Use:
 ### Adding an emote:
 ![Example of adding an emote](https://github.com/hanikanaan/EmoteBot/blob/main/images/Example%20adding%20emote.png)
