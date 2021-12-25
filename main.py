@@ -24,7 +24,7 @@ async def on_message(msg) -> None:
     else:
         server_init(str(msg.guild.id))
 
-
+    validate = URLValidator()
     if msg.content.startswith('$responding'):
         curr = msg.content.split(' ')
         if len(curr) == 1:
@@ -99,30 +99,33 @@ async def on_message(msg) -> None:
             curr = msg.content.replace('$update ', '', 1)
             curr = curr.split(' ')
             if len(curr) == 2:
-                if curr[1] in db.keys():
+                if curr[0] in db[str(msg.guild.id)].keys():
                     try:
-                        validate(curr[2])
-                        db[str(msg.guild.id)][curr[1]] = curr[2] + '.gif'
-                        await msg.channel.send(f'Replaced emote {curr[1]} in database')
-                        await msg.channel.send(db[str(msg.guild.id)][curr[1]])
+                        validate(curr[1])
+                        db[str(msg.guild.id)][curr[0]] = curr[1] + '.gif'
+                        await msg.channel.send(f'Replaced emote {curr[0]} in database')
+                        await msg.channel.send(db[str(msg.guild.id)][curr[0]])
+                        return
                     except IndexError:
                         await msg.channel.send('Link not provided, no addition made.')
                         return
                     except ValidationError:
                         await msg.channel.send('Invalid image link provided.')
+                        return
                 else:
                     await msg.channel.send(
                         'Emote does not exist in the database, please use +*EmoteName* *EmotePictureLink*.')
+                    return
             else:
                 await msg.channel.send(
                     'Missing required argument(s) for database entry. Please make sure to provide both an emote name and the link to the image you would like to use for it.')
             return
 
         if msg.content.startswith('$remove'):
-            curr = msg.content.replace('$remove', '', 1)
+            curr = msg.content.replace('$remove ', '', 1)
             curr = curr.split(' ')
             if curr[0] in db[str(msg.guild.id)].keys():
-                del db[msg.guild.id][curr[0]]
+                del db[str(msg.guild.id)][curr[0]]
                 await msg.channel.send(f'Removed emote from database: {curr[0]} :wave:')
                 return
             elif curr[0] == '':
@@ -134,7 +137,6 @@ async def on_message(msg) -> None:
         if msg.content.startswith('+global'):
             curr = msg.content.replace('+global ', '', 1)
             curr = curr.split(' ')
-            validate = URLValidator()
             try:
                 print(curr[1])
                 validate(curr[1])
@@ -177,7 +179,7 @@ async def on_message(msg) -> None:
             if curr[0] in db.keys() and not curr[0].isnumeric():
                 try:
                     validate(curr[1])
-                    db[curr[0]] = curr[1]
+                    db[curr[0]] = curr[1] + '.gif'
                     await msg.channel.send(f'Replaced emote {curr[0]} in the global emote database.')
                     return
                 except ValidationError:
