@@ -47,7 +47,7 @@ async def on_message(msg) -> None:
     if db[str(msg.guild.id)]["status"]:
         if len(db[str(msg.guild.id)].keys()) <= 200:
             if msg.content.startswith('$add'):
-                curr = msg.content.replace('$add', '', 1)
+                curr = msg.content.replace('$add ', '', 1)
                 curr = curr.split(' ')
                 if curr[0] in db.keys():
                     await msg.channel.send(
@@ -96,7 +96,7 @@ async def on_message(msg) -> None:
                     await msg.channel.send(f'{a} emote: {db[a]}')
 
         if msg.content.startswith('$update'):
-            curr = msg.content.replace('$update', '', 1)
+            curr = msg.content.replace('$update ', '', 1)
             curr = curr.split(' ')
             if len(curr) == 2:
                 if curr[1] in db.keys():
@@ -132,10 +132,11 @@ async def on_message(msg) -> None:
                 return
 
         if msg.content.startswith('+global'):
-            curr = msg.content.replace('+global', '', 1)
+            curr = msg.content.replace('+global ', '', 1)
             curr = curr.split(' ')
             validate = URLValidator()
             try:
+                print(curr[1])
                 validate(curr[1])
             except IndexError:
                 await msg.channel.send('Link not provided, no addition made.')
@@ -147,12 +148,14 @@ async def on_message(msg) -> None:
                 if curr[0] in db[a]:
                     del db[a][curr[0]]
                     db[curr[0]] = curr[1] + '.gif'
+                    await msg.channel.send(f'Global emote {curr[0]} replaced a local emote with the same name.')
                     return
             if curr[0] in db.keys():
                 await msg.channel.send('This global emote is already available in the database. To replace it, '
                 'please use the $replace global function.')
             else:
-                db[curr[0]] = curr[1]
+                db[curr[0]] = curr[1] + '.gif'
+                await msg.channel.send(f'Global emote {curr[0]} added.')
             return
 
         if msg.content.startswith('-global'):
@@ -169,7 +172,7 @@ async def on_message(msg) -> None:
                 return
 
         if msg.content.startswith('$replace global'):
-            curr = msg.content.replace('$replace global', '', 1)
+            curr = msg.content.replace('$replace global ', '', 1)
             curr = curr.split(' ')
             if curr[0] in db.keys() and not curr[0].isnumeric():
                 try:
