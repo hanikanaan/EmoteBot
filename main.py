@@ -4,7 +4,6 @@ from replit import db
 from keep_alive import keep_alive
 
 client = discord.Client()
-db['responding'] = 'true'
 
 @client.event
 async def on_ready():
@@ -16,27 +15,31 @@ async def on_message(msg):
   if msg.author == client.user:
     return
 
+  if str(msg.guild.id) in db.keys():
+    pass
+  else:
+    db[str(msg.guild.id)] = 'true'
+  
   if msg.content.startswith('$responding'):
     curr = msg.content.split(' ')
-    
     if len(curr) == 1:
-      await msg.channel.send(f'Current response status: {db["responding"]}')
+      await msg.channel.send(f'Current response status: {db[str(msg.guild.id)]}')
     else:
       status = curr[1].lower()
       if status == 'true' or status == 'false':
-        if status == 'false' and status != db['responding']:
-          db['responding'] = 'false'
-          await msg.channel.send(f'Changed status to {db["responding"]}.')
-        elif status == 'true' and status != db['responding']:
-          db['responding'] = 'true'
-          await msg.channel.send(f'Changed status to {db["responding"]}.')
+        if status == 'false' and status != db[str(msg.guild.id)]:
+          db[str(msg.guild.id)] = 'false'
+          await msg.channel.send(f'Changed status to {db[str(msg.guild.id)]}.')
+        elif status == 'true' and status != db[str(msg.guild.id)]:
+          db[str(msg.guild.id)] = 'true'
+          await msg.channel.send(f'Changed status to {db[str(msg.guild.id)]}.')
         else:
           await msg.channel.send('No new status update.')
       else:
         await msg.channel.send('Invalid response status, please enter "true" or "false".')
     return
 
-  if db['responding'] == 'true':
+  if db[str(msg.guild.id)] == 'true':
     if msg.content.startswith('+'):
       curr = msg.content.replace('+', '', 1)
       curr = curr.split(' ')
@@ -60,7 +63,7 @@ async def on_message(msg):
         
     if msg.content.startswith('!list'):
       for a in db.keys():
-        if a != 'responding':
+        if not a.isnumeric():
           await msg.channel.send(f'{a} emote: {db[a]}')
         else:
           pass
@@ -80,16 +83,19 @@ async def on_message(msg):
         else:
           await msg.channel.send('Emote does not exist in the database, please use +*EmoteName* *EmotePictureLink*.')
       else:
-        await msg.channel.send('Missing required argument for database entry. Please make sure to provide both an emote name and the link to the image you would like to use for it.')
+        await msg.channel.send('Missing required argument(s) for database entry. Please make sure to provide both an emote name and the link to the image you would like to use for it.')
       return
     
-    curr_msg = msg.content.split(' ')
+    curr_msg = msg.content
+    curr_msg.replace('+', '', 1)
+    curr_msg = curr_msg.split(' ')
     for a in curr_msg:
       if a.lower() == 'surely':
         await msg.channel.send(db['Clueless'])
-      elif a in db.keys() and a != 'responding':
+        return
+      elif a in db.keys() and a != str(msg.guild.id):
         await msg.channel.send(db[a])
-      return
+        return
 
     if msg.content.startswith('-'):
       curr = msg.content.replace('-', '', 1)
@@ -98,13 +104,15 @@ async def on_message(msg):
         del db[curr[0]]
         await msg.channel.send(f'Removed emote from database: {curr[0]} :wave:')
       return
-  
+
   if msg.content.startswith('!help'):
+    # await msg.channel.send('h')
     await msg.channel.send('Welcome to EmoteBot! This bot will read your messages and see if there is an emote reference in it, and if there is it will send the corresponding emote as per the database.')
     await msg.channel.send('To add a new emote, write "+*EmoteName* *EmotePictureLink*".')
     await msg.channel.send('To replace a preexisting emote, write "$replace *EmoteName* *EmotePictureLink*".')
     await msg.channel.send('To see the list of preexisting emotes, type !list.')
-    return
+  return
+
 
 keep_alive()
 client.run(os.getenv("TOKEN"))
