@@ -14,19 +14,40 @@ This was done using Python (discord.py) and then hosted using [uptimerobot.com](
 * If set to true, then the bot responds to all commands
 * If set to false, then the bot responds only to $help EmoteBot
 
-### +EmoteName EmotePictureLink: 
-* Add an emote to the database
-* If link is not provided, an error is raised and the bot sends a message that the link was invalid/not provided
+### $add EmoteName EmotePictureLink: 
+* Add an emote to the local database
+* If link is not provided, error is raised and the bot sends a message that the link was not provided
+* If link is provided but invalid, error is raised and the bot sends a message that the link provided was invalid
+* If user tries to add an emote which exists in the global database, they are notified that they do not need to make another version of the emote to be able to use it as it is accesssible globally
+* Max number of local emotes limited to 200, error is raised if a user tries to add an emote while already at the 200 emote limit
 
-### -EmoteName: 
+### +global EmoteName EmotePictureLink
+* Add an emote to the global database
+* If link is not provided, error is raised and the bot sends a message that the link was not provided
+* If link is provided but invalid, error is raised and the bot sends a message that the link provided was invalid
+
+### $remove EmoteName: 
 * Remove an emote from the database
 * Only argument is the emote name
 
-### !list: 
-* Lists all remotes available in the database and the images
+### -global EmoteName:
+* Remove an emote from the global database
+* Only argument is the emote name
 
-### $replace: 
-* Replace a preexisting emote from the database with a different picture (e.g. holiday themed emotes)
+### $list local: 
+* Lists all emotes available to the server
+
+### $list global:
+* Lists all global emotes
+
+### $list all:
+* Lists all emotes in local and global databases (DOES NOT LIST OTHER SERVERS' EMOTES)
+
+### $update: 
+* Replace a preexisting local emote from the database with a different picture (e.g. holiday themed emotes)
+
+### $replace global:
+* Replace a preexisting global emote from the database with a different picture
 
 ## Example Use:
 ### Adding an emote:
