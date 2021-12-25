@@ -213,7 +213,7 @@ async def on_message(msg) -> None:
                                ' to list local emotes only.\n'
                                'To turn off the bot for this server, write "$responding false", and to turn it back '
                                'on, write ''"$responding true". If you are unsure of current bot status, type '
-                               '"$responding".')
+                               '"$responding".\nTo see the total number of server emotes the current server has, use the command "$num".')
         return
 
 
