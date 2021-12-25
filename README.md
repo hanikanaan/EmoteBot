@@ -54,10 +54,35 @@ This was done using Python (discord.py) and then hosted using [uptimerobot.com](
 
 ## Example Use:
 ### Adding an emote:
-![Example of adding an emote](https://github.com/hanikanaan/EmoteBot/blob/main/images/Example%20adding%20emote.png)
+* Local:
+
+![Example of adding an emote locally](https://github.com/hanikanaan/EmoteBot/blob/main/images/Adding%20local%20emote.png)
+* Global:
+
+![Example of adding an emote globally](https://github.com/hanikanaan/EmoteBot/blob/main/images/Global%20emote%20overriding%20local%20emote.png)
+* Local add accessed from a different server:
+
+![Added into server "bot"](https://github.com/hanikanaan/EmoteBot/blob/main/images/popCat%20in%20server.png)
+![Attempted access from server "bot2"](https://github.com/hanikanaan/EmoteBot/blob/main/images/popCat%20outside%20server.png)
 ### Removing an emote:
-![Example of removing an emote](https://github.com/hanikanaan/EmoteBot/blob/main/images/Example%20removing%20emote.png)
+* Local:
+
+![Example of removing a local emote](https://github.com/hanikanaan/EmoteBot/blob/main/images/Removing%20local%20emote.png)
+* Global:
+
+![Example of removing a global emote](https://github.com/hanikanaan/EmoteBot/blob/main/images/Removing%20global%20emote.png)
 ### Replacing an emote:
-![Example of replacing an emote](https://github.com/hanikanaan/EmoteBot/blob/main/images/Example%20replacement.png)
+* Global:
+
+![Example of replacing an emote](https://github.com/hanikanaan/EmoteBot/blob/main/images/Replacing%20global%20emote.png)
+* Local:
+
+![Example of replacing local emote](https://github.com/hanikanaan/EmoteBot/blob/main/images/Update%20local%20database.png)
 ### Typical bot reply to emote mention
 ![Example of bot response](https://github.com/hanikanaan/EmoteBot/blob/main/images/Example%20using%20emote.png)
+### !help command response:
+
+![!help command response from robot](https://github.com/hanikanaan/EmoteBot/blob/main/images/Help%20command.png)
+### $num command response:
+
+![$num command response](https://github.com/hanikanaan/EmoteBot/blob/main/images/Num%20command.png)
