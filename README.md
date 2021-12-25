@@ -1,5 +1,5 @@
 # EmoteBot
-Discord emote bot where users can add and remove emotes using image links.
+Discord emote bot where users can add and remove emotes using image links, made in [replit](https://replit.com/@hanikanaan/EmoteBot)
 
 
 ## Invite Link:
