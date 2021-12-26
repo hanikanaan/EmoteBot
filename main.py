@@ -54,7 +54,6 @@ async def on_message(msg) -> None:
                         'This emote is already available in the database as a global emote. You can use it without adding '
                         'to your server.')
                 else:
-                    validate = URLValidator()
                     try:
                         validate(curr[1])
                         db[str(msg.guild.id)][curr[0]] = curr[1] + '.gif'
