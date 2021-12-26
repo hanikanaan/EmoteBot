@@ -79,7 +79,7 @@ This was done using Python (discord.py) and then hosted using [uptimerobot.com](
 
 ![Example of replacing local emote](https://github.com/hanikanaan/EmoteBot/blob/main/images/Update%20local%20database.png)
 ### Typical bot reply to emote mention
-![Example of bot response](https://github.com/hanikanaan/EmoteBot/blob/main/images/Example%20using%20emote.png)
+![Example of bot response](https://github.com/hanikanaan/EmoteBot/blob/main/images/Typical%20use%20case.png)
 ### !help command response:
 
 ![!help command response from robot](https://github.com/hanikanaan/EmoteBot/blob/main/images/Help%20command.png)
